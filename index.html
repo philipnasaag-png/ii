@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prismatic Whiskers — Persian Cats & Rainbow Art</title>
+  <style>
+    :root {
+      --rainbow-grad: linear-gradient(
+        90deg,
+        #ff3b30,
+        #ff9500,
+        #ffcc00,
+        #34c759,
+        #00c7be,
+        #007aff,
+        #af52de,
+        #ff2d55
+      );
+      --bg-dark: #0f1018;
+      --bg-card: #181a26;
+      --text-main: #f7f8fc;
+      --text-muted: #b4b8cc;
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --accent-glow: rgba(175, 82, 222, 0.25);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --transition: 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Optional soft rainbow daylight mode toggled via JS */
+    body.light-canvas {
+      --bg-dark: #faf9ff;
+      --bg-card: #ffffff;
+      --text-main: #151622;
+      --text-muted: #555972;
+      --border-subtle: rgba(21, 22, 34, 0.1);
+      --accent-glow: rgba(0, 122, 255, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      transition: background-color var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+
+    /* Top Rainbow Ribbon */
+    .rainbow-bar {
+      height: 6px;
+      width: 100%;
+      background: var(--rainbow-grad);
+      background-size: 200% 100%;
+      animation: rainbowShift 8s linear infinite;
+    }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      width: min(1140px, 92%);
+      margin: 0 auto;
+    }
+
+    /* Header & Nav */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg-dark) 82%, transparent);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: var(--rainbow-grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color var(--transition);
+    }
+
+    nav a:hover {
+      color: var(--text-main);
+    }
+
+    .btn-theme {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-main);
+      padding: 0.48rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .btn-theme:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      line-height: 1.1;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.1rem;
+    }
+
+    .rainbow-text {
+      background: var(--rainbow-grad);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: rainbowShift 7s linear infinite;
+    }
+
+    .hero p {
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      color: var(--text-muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--rainbow-grad);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0.8rem 1.5rem;
+      border-radius: 999px;
+      box-shadow: 0 10px 28px var(--accent-glow);
+      transition: transform var(--transition), filter var(--transition);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+
+    .btn-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-subtle);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      border-radius: 999px;
+      transition: transform var(--transition);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Section Headings */
+    section {
+      padding: 3.5rem 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3.2vw, 2.35rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 520px;
+    }
+
+    /* Filter Pills */
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      padding: 0.45rem 1rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      color: #ffffff;
+      border-color: transparent;
+      background: var(--rainbow-grad);
+    }
+
+    /* Gallery Grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .art-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .art-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 36px var(--accent-glow);
+    }
+
+    .art-card.hidden {
+      display: none;
+    }
+
+    .card-media {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #232638;
+    }
+
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.45s ease;
+    }
+
+    .art-card:hover .card-media img {
+      transform: scale(1.05);
+    }
+
+    /* Rainbow color strip along each card */
+    .spectrum-strip {
+      height: 5px;
+      width: 100%;
+    }
+
+    .strip-red { background: #ff3b30; }
+    .strip-orange { background: #ff9500; }
+    .strip-yellow { background: #ffcc00; }
+    .strip-green { background: #34c759; }
+    .strip-blue { background: #007aff; }
+    .strip-violet { background: linear-gradient(90deg, #5856d6, #af52de, #ff2d55); }
+
+    .card-body {
+      padding: 1.15rem 1.25rem 1.35rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .card-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .card-title {
+      font-size: 1.12rem;
+      font-weight: 700;
+    }
+
+    .card-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Persian Traits & Color Swatches */
+    .traits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .trait-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.35rem;
+      border-top: 4px solid var(--top-color, #007aff);
+    }
+
+    .trait-box h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .trait-box p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+    }
+
+    /* Lightbox Modal */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(8, 9, 15, 0.86);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 100;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      max-width: 720px;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .lightbox-panel img {
+      width: 100%;
+      max-height: 62vh;
+      object-fit: cover;
+      display: block;
+    }
+
+    .lightbox-info {
+      padding: 1.25rem 1.5rem;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 0.85rem;
+      right: 0.85rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(15, 16, 24, 0.75);
+      color: #fff;
+      font-size: 1.25rem;
+      cursor: pointer;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="rainbow-bar" aria-hidden="true"></div>
+
+  <header>
+    <div class="container nav-wrap">
+      <a class="brand" href="#">Prismatic Whiskers</a>
+      <nav aria-label="Primary Navigation">
+        <a href="#gallery">Gallery</a>
+        <a href="#persians">Persian Charm</a>
+        <a href="#palette">Rainbow Palette</a>
+      </nav>
+      <button class="btn-theme" id="themeToggle" type="button" aria-label="Toggle color mode">
+        Switch to Daylight
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="hero-badge">Feline Elegance &times; Chromatic Art</span>
+        <h1>
+          Where <span class="rainbow-text">Persian Cats</span> Meet<br />
+          Full-Spectrum Art
+        </h1>
+        <p>
+          Explore plush, round-faced Persian cats paired with vibrant rainbow palettes,
+          expressive brushwork, and playful visual contrast.
+        </p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#gallery">Explore Cat &amp; Art Gallery</a>
+          <a class="btn-secondary" href="#persians">Why Persians Inspire Artists</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Cat &amp; Art Showcase</h2>
+            <p class="section-sub">Filter by collection or click any piece to inspect it up close.</p>
+          </div>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filter gallery items">
+          <button class="filter-btn active" data-filter="all" type="button">All</button>
+          <button class="filter-btn" data-filter="cats" type="button">Persian Cats</button>
+          <button class="filter-btn" data-filter="arts" type="button">Rainbow Arts</button>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid">
+          <!-- Item 1: Persian Cat -->
+          <article class="art-card" data-category="cats"
+            data-title="Velvet Crown Persian"
+            data-tag="Persian Cat • Ruby &amp; Amber Mood"
+            data-desc="Lush coat texture and expressive eyes framed with warm crimson and amber accents."
+            data-img="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80" alt="Close-up of a fluffy cat with expressive eyes" />
+            </div>
+            <div class="spectrum-strip strip-red"></div>
+            <div class="card-body">
+              <span class="card-tag">Persian Cat</span>
+              <h3 class="card-title">Velvet Crown Persian</h3>
+              <p class="card-desc">Soft layered fur and serene gaze highlighted with warm ruby-orange energy.</p>
+            </div>
+          </article>
+
+          <!-- Item 2: Rainbow Art -->
+          <article class="art-card" data-category="arts"
+            data-title="Chromatic Splash Canvas"
+            data-tag="Rainbow Art • Mixed Media"
+            data-desc="Bold sweeps of red, orange, yellow, green, blue, and violet inspired by feline grace."
+            data-img="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=900&q=80" alt="Colorful abstract painting with vivid brushstrokes" />
+            </div>
+            <div class="spectrum-strip strip-orange"></div>
+            <div class="card-body">
+              <span class="card-tag">Rainbow Art</span>
+              <h3 class="card-title">Chromatic Splash Canvas</h3>
+              <p class="card-desc">Expressive pigment layers celebrating every band of the visible spectrum.</p>
+            </div>
+          </article>
+
+          <!-- Item 3: Persian Cat -->
+          <article class="art-card" data-category="cats"
+            data-title="Sunbeam Lounger"
+            data-tag="Persian Cat • Golden Hour"
+            data-desc="Calm indoor poise capturing the unhurried rhythm of a classic Persian companion."
+            data-img="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80" alt="Relaxed cat resting with soft lighting" />
+            </div>
+            <div class="spectrum-strip strip-yellow"></div>
+            <div class="card-body">
+              <span class="card-tag">Persian Cat</span>
+              <h3 class="card-title">Sunbeam Lounger</h3>
+              <p class="card-desc">Quiet posture and golden highlights that anchor a lively color palette.</p>
+            </div>
+          </article>
+
+          <!-- Item 4: Rainbow Art -->
+          <article class="art-card" data-category="arts"
+            data-title="Prism Waves Study"
+            data-tag="Rainbow Art • Color Theory"
+            data-desc="Harmonic transitions across emerald, cobalt, and violet tones."
+            data-img="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=900&q=80" alt="Vibrant fine art painting with rich colors" />
+            </div>
+            <div class="spectrum-strip strip-green"></div>
+            <div class="card-body">
+              <span class="card-tag">Rainbow Art</span>
+              <h3 class="card-title">Prism Waves Study</h3>
+              <p class="card-desc">Rich layered textures balancing cool cyan-blue and warm magenta notes.</p>
+            </div>
+          </article>
+
+          <!-- Item 5: Persian Cat -->
+          <article class="art-card" data-category="cats"
+            data-title="Plush Whisker Portrait"
+            data-tag="Persian Cat • Studio Study"
+            data-desc="Rounded cheeks, compact nose, and dense coat ideal for portrait composition."
+            data-img="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=900&q=80">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?auto=format&fit=crop&w=900&q=80" alt="Cat portrait showing fur detail and calm eyes" />
+            </div>
+            <div class="spectrum-strip strip-blue"></div>
+            <div class="card-body">
+              <span class="card-tag">Persian Cat</span>
+              <h3 class="card-title">Plush Whisker Portrait</h3>
+              <p class="card-desc">Symmetrical facial proportions that make great subjects for stylized art.</p>
+            </div>
+          </article>
+
+          <!-- Item 6: Rainbow Art -->
+          <article class="art-card" data-category="arts"
+            data-title="Kaleidoscope Pigment"
+            data-tag="Rainbow Art • Abstract"
+            data-desc="High-contrast color bursts bringing playful energy to minimalist spaces."
+            data-img="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80">
+            <div class="card-media">
+              <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80" alt="Art supplies and colorful painted textures" />
+            </div>
+            <div class="spectrum-strip strip-violet"></div>
+            <div class="card-body">
+              <span class="card-tag">Rainbow Art</span>
+              <h3 class="card-title">Kaleidoscope Pigment</h3>
+              <p class="card-desc">A celebration of raw pigments, brushes, and full-spectrum contrast.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="persians">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2>Why Persian Cats &amp; Rainbow Art Pair So Well</h2>
+            <p class="section-sub">Calm, sculptural silhouettes balance high-energy color.</p>
+          </div>
+        </div>
+        <div class="traits-grid">
+          <div class="trait-box" style="--top-color: #ff3b30;">
+            <h3>Sculptural Silhouette</h3>
+            <p>Round heads, broad cheekbones, and flowing coats give artists clear shapes to stylize or paint.</p>
+          </div>
+          <div class="trait-box" style="--top-color: #ffcc00;">
+            <h3>Serene Temperament</h3>
+            <p>Known for gentle, affectionate personalities, Persian cats bring peaceful calm to bright spaces.</p>
+          </div>
+          <div class="trait-box" style="--top-color: #007aff;">
+            <h3>Rich Coat Varieties</h3>
+            <p>From snowy whites and creams to calico, tortoiseshell, and shaded tones, their coats echo natural pigments.</p>
+          </div>
+          <div class="trait-box" style="--top-color: #af52de;">
+            <h3>Full-Spectrum Contrast</h3>
+            <p>Pairing soft feline grace with bold rainbow hues creates eye-catching visual harmony.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <div class="lightbox-panel">
+      <button class="lightbox-close" id="lbClose" type="button" aria-label="Close preview">&times;</button>
+      <img id="lbImg" src="" alt="" />
+      <div class="lightbox-info">
+        <span class="card-tag" id="lbTag"></span>
+        <h3 class="card-title" id="lbTitle"></h3>
+        <p class="card-desc" id="lbDesc"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      Made with HTML, CSS &amp; JavaScript &bull; Persian Cats &amp; Rainbow Art Showcase
+    </div>
+  </footer>
+
+  <script>
+    // 1. Category Filter Logic
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const cards = document.querySelectorAll(".art-card");
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.dataset.filter;
+        cards.forEach((card) => {
+          const matches = filter === "all" || card.dataset.category === filter;
+          card.classList.toggle("hidden", !matches);
+        });
+      });
+    });
+
+    // 2. Lightbox Preview Logic
+    const lightbox = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbTag = document.getElementById("lbTag");
+    const lbTitle = document.getElementById("lbTitle");
+    const lbDesc = document.getElementById("lbDesc");
+    const lbClose = document.getElementById("lbClose");
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        lbImg.src = card.dataset.img;
+        lbImg.alt = card.dataset.title;
+        lbTag.textContent = card.dataset.tag;
+        lbTitle.textContent = card.dataset.title;
+        lbDesc.textContent = card.dataset.desc;
+        lightbox.classList.add("open");
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove("open");
+    }
+
+    lbClose.addEventListener("click", closeLightbox);
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    // 3. Night / Daylight Canvas Toggle
+    const themeToggle = document.getElementById("themeToggle");
+    themeToggle.addEventListener("click", () => {
+      const isLight = document.body.classList.toggle("light-canvas");
+      themeToggle.textContent = isLight ? "Switch to Night Canvas" : "Switch to Daylight";
+    });
+  </script>
+</body>
+</html>
